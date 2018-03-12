@@ -1,0 +1,17 @@
+==================
+This is a file that we can use to designate what we need to get done.  Honestly I feel like there's a built-in task manager in GitHub, but for now until we find it we can use this.
+
+The "Overall" list is a collective of things we all need to try to figure out and solve.
+==================
+
+Overall
+	1. How to simultaneously work on (and push) project files PROPERLY (so no weird overwriting happens, etc.)
+
+Andrew
+	1. <//>
+
+Patrick
+	1. <//>
+
+Ryan
+	1. <//>
