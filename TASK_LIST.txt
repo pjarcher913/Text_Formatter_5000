@@ -8,10 +8,10 @@ Overall
 	1. How to simultaneously work on (and push) project files PROPERLY (so no weird overwriting happens, etc.)
 
 Andrew
-	1. <//>
+	1. GUI class
 
 Patrick
-	1. <//>
+	1. Analyzer class
 
 Ryan
-	1. <//>
+	1. Formatter class
