@@ -12,6 +12,7 @@ import java.io.PrintWriter;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+
 public class GUI
 {
 	//These are all of the different elements of the gui.
@@ -77,6 +78,7 @@ public class GUI
 				FileReader reader = new FileReader(filename);
 				BufferedReader br = new BufferedReader(reader);
 				inputTextPane.read(br, null);
+				inputTextPane.setPreferredSize(new Dimension(575,150));
 				br.close();
 				fileLoaded = true;
 			}
@@ -109,6 +111,8 @@ public class GUI
 				return;
 			}
 			
+			
+			
 			//Build the inputArray
 			String text = inputTextPane.getText();
 			int lineCount = 1;
@@ -134,12 +138,12 @@ public class GUI
 			//Chop off last char of the strings
 			for(int i = 0; i < lineCount; i++)
 			{
-				if(inputArray[i].length() > 0)
+				if(inputArray[i].length() > 0 && i != lineCount - 1)
 					inputArray[i] = inputArray[i].substring(0, inputArray[i].length() - 1);
 			}
 
 			//NEED OTHER FILES DONE
-			/*
+			
 			Formatter form = new Formatter();
 			String[] outputArray = form.format(inputArray, justificationFlag);
 			Analyzer ana = new Analyzer();
@@ -160,7 +164,7 @@ public class GUI
 					text += "\n";
 			}
 			outputTextPane.setText(text);
-			*/
+			outputTextPane.setPreferredSize(new Dimension(575,150));
 			
 			fileFormatted = true;
 		}
