@@ -122,6 +122,9 @@ public class GUI
 					lineCount++;
 			}
 			
+			//Replace /t with spaces.  Should be done in formatter, but will be more convenient to do it here.
+			text = text.replace('\t', ' ');
+			
 			String[] inputArray = new String[lineCount];
 			for(int i = 0; i < lineCount; i++)
 				inputArray[i] = "";
@@ -141,6 +144,7 @@ public class GUI
 				if(inputArray[i].length() > 0 && i != lineCount - 1)
 					inputArray[i] = inputArray[i].substring(0, inputArray[i].length() - 1);
 			}
+			
 
 			//NEED OTHER FILES DONE
 			
