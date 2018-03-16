@@ -80,7 +80,7 @@ public class Analyzer
                                 j++;
                             }
                             j = j - 1;  // adjusts j's value so the main for loop works correctly
-                            wordCount++;    // a word has been found
+                            // wordCount++;    // a word has been found
                             atFirstCell = false;    // we aren't at the first cell anymore (since/after j is incremented)
                         }
                         else if (atFirstCell == false && Character.isDefined(outputLine.charAt(j+1)))
@@ -137,14 +137,39 @@ public class Analyzer
         //*************************************************
         /*  Deal with avgWordsPerLine   */
         //*************************************************
-        avgWordsPerLine = wordCount / outputLineCount;
+        avgWordsPerLine = (double) wordCount / (double) outputLineCount;
 
         //*************************************************
         /*  Deal with avgLineLength */
         //*************************************************
-        for (int k = 0; k < outputLines.length && outputLines[k] != null; k++)  // "For each full string, do..."
+        String tempLine;
+        for (int m = 0; m < outputLines.length && outputLines[m] != null; m++)  // "For each full string, do..."
         {
-            totalLineLength = outputLines[k].length() + totalLineLength;    // take string length of each string and update var
+            boolean atStartOfString = true; // flag for if we are at the first char in the string
+            tempLine = outputLines[m];
+            for (int k = 0; k < tempLine.length(); k++)
+            {
+                if (atStartOfString == true)   // if currently analyzing char in the first cell in string[]
+                {
+                    if (tempLine.charAt(k) == ' ')   // if space char @ beginning of string
+                    {
+                        while (tempLine.charAt(k) == ' ' && k < tempLine.length())  // iterate to the first actual char (not a space)
+                        {
+                            k++;
+                        }
+                        k--;
+                        totalLineLength--;
+                    }
+                /*
+                else    // letter, number, or symbol at start; carry on like normal
+                {
+                    totalLineLength = outputLines[k].length() + totalLineLength;    // take string length of each string and update var
+                }
+                */
+                    atStartOfString = false;
+                }
+                totalLineLength++; // = outputLines[k].length() + totalLineLength;    // take string length of each string and update var
+            }
         }
         avgLineLength = (double) totalLineLength / (double) outputLineCount;    // calculate avg from total # of lines and total line length
 	}
