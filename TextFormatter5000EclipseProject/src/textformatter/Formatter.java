@@ -16,12 +16,63 @@ public class Formatter
 		if(flag == 0){ //left justified
 			for(int i = 0; i < input.length; i++){//traverses the input array
 				String currentLine = input[i];
-				for(int j = 0; j < currentLine.length()-1; j++){//traverses the input string at position i
-						char curChar = currentLine.charAt(j);
+				if(currentLine.length() == 1){
+					if(currentLine.length() == 1){
+						wordStart = 0;
+						wordEnd = 0;
+					}
+					if(wordStart != -1 && wordEnd != -1){
+						String newWord = "";
+						int newWordLength = wordEnd - wordStart +1;
+						int newLineLength = formLine.length() + newWordLength + 1;
+						if(formLine.length() == 0){
+								for(int k = wordStart; k <= wordEnd; k++){
+									newWord += currentLine.charAt(k);
+								}
+								formLine += newWord;
+							
+						}
+						else{
+							if((newLineLength) < 80){
+								newWord += ' ';
+								for(int k = wordStart; k <= wordEnd; k++){
+									newWord += currentLine.charAt(k);
+								}
+								formLine += newWord;
+							}
+							else{
+								if((newLineLength) > 80){
+									formList.add(formLine);
+									formLine = "";
+									for(int k = wordStart; k <= wordEnd; k++){
+										newWord += currentLine.charAt(k);
+									}
+									formLine += newWord;
+									
+								}
+								if(newLineLength == 80){
+									newWord += ' ';
+									for(int k = wordStart; k <= wordEnd; k++){
+										newWord += currentLine.charAt(k);
+									}
+									formLine += newWord;
+									formList.add(formLine);
+									formLine = "";
+								}
+							}
+							
+						}
+						wordStart = -1;
+						wordEnd = -1;
+					}
+				}
+				for(int j = 0; j < currentLine.length()-1; j++){//traverses the input string at position i	
+					char curChar = currentLine.charAt(j);
 						char nextChar = currentLine.charAt(j+1);
 						if(curChar != ' '){
 							if(wordStart == -1){
 								wordStart = j;
+								wordEnd = -1;
 							}
 						}
 						if((j+1) == currentLine.length()-1){
@@ -35,18 +86,23 @@ public class Formatter
 								wordEnd = j;
 							}
 						}
-						if(curChar == ' ' || curChar == '\t'){
-							wordEnd = j-1;
+						if(nextChar == ' ' || nextChar == '\t'){
+							wordEnd = j;
+						}
+						if(currentLine.length() == 1){
+							wordStart = 0;
+							wordEnd = 0;
 						}
 						if(wordStart != -1 && wordEnd != -1){
 							String newWord = "";
 							int newWordLength = wordEnd - wordStart +1;
 							int newLineLength = formLine.length() + newWordLength + 1;
 							if(formLine.length() == 0){
-								for(int k = wordStart; k <= wordEnd; k++){
-									newWord += currentLine.charAt(k);
-								}
-								formLine += newWord;
+									for(int k = wordStart; k <= wordEnd; k++){
+										newWord += currentLine.charAt(k);
+									}
+									formLine += newWord;
+								
 							}
 							else{
 								if((newLineLength) < 80){
@@ -95,12 +151,70 @@ public class Formatter
 				String tempLine = "";
 				for(int i = 0; i < input.length; i++){//traverses the input array
 					String currentLine = input[i];
-					for(int j = 0; j < currentLine.length()-1; j++){//traverses the input string at position i
+					if(currentLine.length() == 1){
+						if(currentLine.length() == 1){
+							wordStart = 0;
+							wordEnd = 0;
+						}
+						if(wordStart != -1 && wordEnd != -1){
+							String newWord = "";
+							int newWordLength = wordEnd - wordStart +1;
+							int newLineLength = tempLine.length() + newWordLength + 1;
+							if(tempLine.length() == 0){
+								for(int k = wordStart; k <= wordEnd; k++){
+									newWord += currentLine.charAt(k);
+								}
+								tempLine += newWord;
+							}
+							else{
+								if((newLineLength) < 80){
+									newWord += ' ';
+									for(int k = wordStart; k <= wordEnd; k++){
+										newWord += currentLine.charAt(k);
+									}
+									tempLine += newWord;
+								}
+								else{
+									if((newLineLength) > 80){
+										int spaces = 80 - tempLine.length();
+										for(int z = 0; z < spaces; z++){
+											formLine += " ";
+										}
+										formLine += tempLine;
+										formList.add(formLine);
+										formLine = "";
+										tempLine = "";
+										for(int k = wordStart; k <= wordEnd; k++){
+											newWord += currentLine.charAt(k);
+										}
+										tempLine += newWord;
+										
+									}
+									if(newLineLength == 80){
+										newWord += ' ';
+										for(int k = wordStart; k <= wordEnd; k++){
+											newWord += currentLine.charAt(k);
+										}
+										tempLine += newWord;
+										formLine += tempLine;
+										formList.add(formLine);
+										tempLine = "";
+										formLine = "";
+									}
+								}
+								
+							}
+							wordStart = -1;
+							wordEnd = -1;
+						}
+					}
+					for(int j = 0; j <= currentLine.length()-2; j++){//traverses the input string at position i
 							char curChar = currentLine.charAt(j);
 							char nextChar = currentLine.charAt(j+1);
 							if(curChar != ' '){
 								if(wordStart == -1){
 									wordStart = j;
+									wordEnd = -1;
 								}
 							}
 							if((j+1) == currentLine.length()-1){
@@ -114,8 +228,13 @@ public class Formatter
 									wordEnd = j;
 								}
 							}
-							if(curChar == ' ' || curChar == '\t'){
-								wordEnd = j-1;
+							
+							if(nextChar == ' ' || nextChar == '\t'){
+								wordEnd = j;
+							}
+							if(currentLine.length() == 1){
+								wordStart = 0;
+								wordEnd = 0;
 							}
 							if(wordStart != -1 && wordEnd != -1){
 								String newWord = "";

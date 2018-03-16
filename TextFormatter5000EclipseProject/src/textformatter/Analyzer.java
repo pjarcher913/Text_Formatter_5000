@@ -3,7 +3,7 @@ This code was written by Patrick Archer.  It is used to analyze input strings an
 - Patrick Archer // 1208960164 // pjarcher // Patrick.Archer@asu.edu -
  */
 
-//package textformatter;    // may or may not need this; comment in/out as necessary
+package textformatter;    // may or may not need this; comment in/out as necessary
 import java.lang.*;
 
 public class Analyzer
