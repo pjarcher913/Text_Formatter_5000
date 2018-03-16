@@ -4,11 +4,11 @@ This code was written by Patrick Archer.  It is used to analyze input strings an
  */
 
 package textformatter;    // may or may not need this; comment in/out as necessary
-import java.lang.*;
+//import java.lang.*;
 
 public class Analyzer
 {
-    private static int inputLineCount = 0;
+    //private static int inputLineCount = 0;
 
 	private static int wordCount = 0;
 	private static int outputLineCount = 0;
@@ -18,7 +18,7 @@ public class Analyzer
 	private static double avgWordsPerLine = 0;
 	private static double avgLineLength = 0;
 
-    private static String inputLine;    // temp var to store current input String[] line
+    //private static String inputLine;    // temp var to store current input String[] line
 	private static String outputLine;   // temp var to store current output String[] line
 	
 	public int getWordCount() {return wordCount;}
@@ -31,8 +31,14 @@ public class Analyzer
 	// lines were removed.
 	// outputLines is an array of the formatted text.
 	// Each element in the arrays is one line of text.
-	public static void performAnalysis(String[] inputLines, String[] outputLines)
+	public void performAnalysis(String[] inputLines, String[] outputLines)
 	{
+		wordCount = 0;
+		outputLineCount = 0;
+		blankLinesRemoved = 0;
+		avgWordsPerLine = 0;
+		avgLineLength = 0;
+		totalLineLength = 0;
 	    //*************************************************
 		/*  Deal with wordCount */
         //*************************************************
@@ -127,12 +133,14 @@ public class Analyzer
         //*************************************************
         /*  Deal with blankLinesRemoved */
         //*************************************************
-        for (int f = 0; f < inputLines.length && inputLines[f] != null; f++)
+		for (int f = 0; f < inputLines.length && inputLines[f] != null; f++)
         {
-            inputLineCount++;
+            //inputLineCount++;
+        	if(inputLines[f].trim().isEmpty())
+        		blankLinesRemoved++;
         }
 
-        blankLinesRemoved = inputLineCount - outputLineCount;   // delta( outputLineCount , inputLineCount ) = numLinesRemoved
+        //blankLinesRemoved = inputLineCount - outputLineCount;   // delta( outputLineCount , inputLineCount ) = numLinesRemoved
 
         //*************************************************
         /*  Deal with avgWordsPerLine   */

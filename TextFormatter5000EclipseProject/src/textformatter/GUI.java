@@ -15,6 +15,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class GUI
 {
+	private static String[] outputArray;
 	//These are all of the different elements of the gui.
 	private JFrame window;
 	private static JTextPane inputTextPane;
@@ -149,7 +150,7 @@ public class GUI
 			//NEED OTHER FILES DONE
 			
 			Formatter form = new Formatter();
-			String[] outputArray = form.format(inputArray, justificationFlag);
+			outputArray = form.format(inputArray, justificationFlag);
 			Analyzer ana = new Analyzer();
 			ana.performAnalysis(inputArray, outputArray);
 			
@@ -197,7 +198,6 @@ public class GUI
 			if(f == null)
 				return;
 			String filename = f.getAbsolutePath();
-			System.out.println(filename);
 			
 			//Double check that the file is indeed a .txt file.
 			if(!filename.endsWith("txt"))
@@ -210,7 +210,10 @@ public class GUI
 			try
 			{
 				PrintWriter writer = new PrintWriter(filename);
-				writer.print(outputTextPane.getText());
+				for(int i = 0; i < outputArray.length; i ++)
+				{
+					writer.println(outputArray[i]);
+				}
 				writer.close();
 			}
 			catch(Exception ex)
