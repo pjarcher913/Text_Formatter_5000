@@ -35,7 +35,7 @@ public class Formatter
 								wordEnd = j;
 							}
 						}
-						if(curChar == ' '){
+						if(curChar == ' ' || curChar == '\t'){
 							wordEnd = j-1;
 						}
 						if(wordStart != -1 && wordEnd != -1){
@@ -114,7 +114,7 @@ public class Formatter
 									wordEnd = j;
 								}
 							}
-							if(curChar == ' '){
+							if(curChar == ' ' || curChar == '\t'){
 								wordEnd = j-1;
 							}
 							if(wordStart != -1 && wordEnd != -1){
