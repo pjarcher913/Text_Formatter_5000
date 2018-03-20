@@ -1,0 +1,1 @@
+This is v1.0 of the project code.  This code was demoed on Friday, March 16th.  The code was in working order at the time of the demo.  A few known bugs still need to be worked out, but most of them will never actually be triggered due to how the formatter and analyzer classes interact with each other.
