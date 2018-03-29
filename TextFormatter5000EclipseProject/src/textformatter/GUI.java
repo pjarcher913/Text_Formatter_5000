@@ -10,8 +10,14 @@ import java.io.FileReader;
 import java.io.PrintWriter;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+
+/*
+ * TODO: implement listener for spacing buttons
+ */
 
 public class GUI
 {
@@ -30,14 +36,25 @@ public class GUI
 	private ButtonGroup group;
 	private JRadioButton leftJustifyButton;
 	private JRadioButton rightJustifyButton;
+	private JRadioButton fullJustifyButton;
+	
+	private ButtonGroup spacingGroup;
+	private JRadioButton singleSpaceButton;
+	private JRadioButton doubleSpaceButton;
+	
+	private static JSlider lineSlider;
 	
 	private static JLabel wordCountLabel;
 	private static JLabel lineCountLabel;
 	private static JLabel blankLinesLabel;
 	private static JLabel avgWordsLabel;
 	private static JLabel avgLineLabel;
+	private static JLabel spacesAddedLabel;
+	private static JLabel sliderLabel;
 	
 	private JPanel inputPanel;
+	private JPanel justifyPanel;
+	private JPanel spacingPanel;
 	private JPanel optionsPanel;
 	private JPanel outputPanel;
 	private JPanel analysisPanel;
@@ -90,6 +107,16 @@ public class GUI
 		}
 	}
 	
+	private static class SliderAction implements ChangeListener
+	{
+		public void stateChanged(ChangeEvent e)
+		{
+			JSlider slider = (JSlider) e.getSource();
+			int v = slider.getValue();
+			sliderLabel.setText("Characters per line: " + Integer.toString(v));
+		}
+	}
+	
 	private static class JustificationAction implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
@@ -97,8 +124,10 @@ public class GUI
 			JRadioButton button = (JRadioButton) e.getSource();
 			if(button.getText().equals("Left Justify"))
 				justificationFlag = 0;
-			else
+			else if(button.getText().equals("Right Justify"))
 				justificationFlag = 1;
+			//else
+			//	justificationFlag = 2;
 		}
 	}
 	
@@ -225,7 +254,7 @@ public class GUI
 	
 	public void createAndShowGUI()
 	{
-		window = new JFrame("Text Formatter 5000");
+		window = new JFrame("Text Formatter 5001");
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		//Input panel setup
@@ -247,23 +276,63 @@ public class GUI
 		
 		//options panel setup
 		optionsPanel = new JPanel();
+		justifyPanel = new JPanel();
 		
-		BoxLayout optionsLayout = new BoxLayout(optionsPanel, BoxLayout.X_AXIS);
+		BoxLayout optionsLayout = new BoxLayout(optionsPanel, BoxLayout.Y_AXIS);
 		optionsPanel.setLayout(optionsLayout);
+		
+		BoxLayout justifyLayout = new BoxLayout(justifyPanel, BoxLayout.X_AXIS);
+		justifyPanel.setLayout(justifyLayout);
+		
+		sliderLabel = new JLabel("Characters per line: 80");
+		
+		lineSlider = new JSlider(JSlider.HORIZONTAL, 20, 100, 80);
+		lineSlider.setMinorTickSpacing(1);
+		lineSlider.setMajorTickSpacing(5);
+		lineSlider.setPaintTicks(true);
+		lineSlider.setPaintLabels(true);
+		lineSlider.addChangeListener(new SliderAction());
 		
 		leftJustifyButton = new JRadioButton("Left Justify");
 		rightJustifyButton = new JRadioButton("Right Justify");
+		fullJustifyButton = new JRadioButton("Full Justify");
+		
 		JustificationAction justListener = new JustificationAction();
+		
 		leftJustifyButton.addActionListener(justListener);
 		rightJustifyButton.addActionListener(justListener);
+		fullJustifyButton.addActionListener(justListener);
+		
 		group = new ButtonGroup();
 		group.add(leftJustifyButton);
 		group.add(rightJustifyButton);
+		group.add(fullJustifyButton);
 		leftJustifyButton.setSelected(true);
+		
+		singleSpaceButton = new JRadioButton("Single spaced");
+		doubleSpaceButton = new JRadioButton("Double spaced");
+		
+		spacingGroup = new ButtonGroup();
+		spacingGroup.add(singleSpaceButton);
+		spacingGroup.add(doubleSpaceButton);
+		singleSpaceButton.setSelected(true);
+		
+		spacingPanel = new JPanel();
+		BoxLayout spacingLayout = new BoxLayout(spacingPanel, BoxLayout.X_AXIS);
+		spacingPanel.setLayout(spacingLayout);
+		spacingPanel.add(singleSpaceButton);
+		spacingPanel.add(doubleSpaceButton);
+		
 		formatButton = new JButton("Format");
 		formatButton.addActionListener(new FormatAction());
-		optionsPanel.add(leftJustifyButton);
-		optionsPanel.add(rightJustifyButton);
+		
+		justifyPanel.add(leftJustifyButton);
+		justifyPanel.add(rightJustifyButton);
+		justifyPanel.add(fullJustifyButton);
+		optionsPanel.add(sliderLabel);
+		optionsPanel.add(lineSlider);
+		optionsPanel.add(justifyPanel);
+		optionsPanel.add(spacingPanel);
 		optionsPanel.add(formatButton);
 		
 		//output panel setup
@@ -281,6 +350,18 @@ public class GUI
 		//analysis panel setup
 		analysisPanel = new JPanel();
 		BoxLayout analysisLayout = new BoxLayout(analysisPanel, BoxLayout.Y_AXIS);
+		
+		JPanel container = new JPanel();
+		JPanel leftPanel = new JPanel();
+		JPanel rightPanel = new JPanel();
+		
+		BoxLayout containerLayout = new BoxLayout(container, BoxLayout.X_AXIS);
+		BoxLayout leftLayout = new BoxLayout(leftPanel, BoxLayout.Y_AXIS);
+		BoxLayout rightLayout = new BoxLayout(rightPanel, BoxLayout.Y_AXIS);
+		
+		leftPanel.setLayout(leftLayout);
+		rightPanel.setLayout(rightLayout);
+		
 		analysisPanel.setLayout(analysisLayout);
 		saveButton = new JButton("Save File");
 		saveButton.addActionListener(new SaveAction());
@@ -289,11 +370,19 @@ public class GUI
 		blankLinesLabel = new JLabel("Blank lines removed: 0");
 		avgWordsLabel = new JLabel("Average words per line: 0");
 		avgLineLabel = new JLabel("Average line length: 0");
-		analysisPanel.add(wordCountLabel);
-		analysisPanel.add(lineCountLabel);
-		analysisPanel.add(blankLinesLabel);
-		analysisPanel.add(avgWordsLabel);
-		analysisPanel.add(avgLineLabel);
+		spacesAddedLabel = new JLabel("Spaces added: 0");
+		
+		leftPanel.add(wordCountLabel);
+		leftPanel.add(lineCountLabel);
+		leftPanel.add(blankLinesLabel);
+		rightPanel.add(avgWordsLabel);
+		rightPanel.add(avgLineLabel);
+		rightPanel.add(spacesAddedLabel);
+		
+		container.add(leftPanel);
+		container.add(rightPanel);
+		
+		analysisPanel.add(container);
 		analysisPanel.add(saveButton);
 		
 		//Set up window
