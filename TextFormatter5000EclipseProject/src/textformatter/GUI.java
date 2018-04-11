@@ -102,7 +102,7 @@ public class GUI
 			}
 			catch(Exception ex)
 			{
-				JOptionPane.showMessageDialog(null, ex);
+				JOptionPane.showMessageDialog(inputTextPane, "Could not open the file.", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
@@ -174,7 +174,6 @@ public class GUI
 				if(inputArray[i].length() > 0 && i != lineCount - 1)
 					inputArray[i] = inputArray[i].substring(0, inputArray[i].length() - 1);
 			}
-			
 
 			//NEED OTHER FILES DONE
 			
@@ -247,7 +246,7 @@ public class GUI
 			}
 			catch(Exception ex)
 			{
-				JOptionPane.showMessageDialog(null, ex);
+				JOptionPane.showMessageDialog(inputTextPane, "Could not save file to the desired location.", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
@@ -361,6 +360,7 @@ public class GUI
 		
 		leftPanel.setLayout(leftLayout);
 		rightPanel.setLayout(rightLayout);
+		container.setLayout(containerLayout);
 		
 		analysisPanel.setLayout(analysisLayout);
 		saveButton = new JButton("Save File");
