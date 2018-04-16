@@ -174,11 +174,21 @@ public class GUI
 				if(inputArray[i].length() > 0 && i != lineCount - 1)
 					inputArray[i] = inputArray[i].substring(0, inputArray[i].length() - 1);
 			}
+			
+			//TEST WORDSEGMENTER
+			/*
+			String[] words = WordSegmenter.segmentWords(inputArray);
+			for(int i = 0; i < words.length; i++)
+			{
+				System.out.print(words[i] + " ");
+			}
+			*/
+			//END TEST WORDSEGMENTER
 
 			//NEED OTHER FILES DONE
 			
 			Formatter form = new Formatter();
-			outputArray = form.format(inputArray, justificationFlag);
+			//outputArray = form.format(inputArray, justificationFlag);
 			Analyzer ana = new Analyzer();
 			ana.performAnalysis(inputArray, outputArray);
 			

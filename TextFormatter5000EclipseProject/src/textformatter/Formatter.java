@@ -7,7 +7,12 @@ public class Formatter
 	// input is an array of strings where each string is a line from the original input file
 	// flag will determine whether to do left or right justification.
 	// Let's say flag == 0 is left justification and flag == 1 is right justification
-	public String[] format(String[] input, int flag)
+	
+	// spacing will be used to determine if the file should be single spaced or double spaced.
+	// spacing == 0 is single spaced and spacing == 1 is double spaced.
+	
+	// lineLength is how long each line should be.
+	public String[] format(String[] input, int flag, int spacing, int lineLegth)
 	{
 		LinkedList<String> formList = new LinkedList<String>(); //Used to store an unknown quantity of lines
 		String formLine = "";	//current formatted line
