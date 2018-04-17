@@ -12,7 +12,7 @@ public class Formatter
 	// spacing == 0 is single spaced and spacing == 1 is double spaced.
 	
 	// lineLength is how long each line should be.
-	public String[] format(String[] input, int flag, int spacing, int lineLegth)
+	public String[] format(String[] input, int flag, int spacing, int lineLength)
 	{
 		LinkedList<String> formList = new LinkedList<String>(); //Used to store an unknown quantity of lines
 		String formLine = "";	//current formatted line
@@ -38,7 +38,7 @@ public class Formatter
 							
 						}
 						else{
-							if((newLineLength) < 80){
+							if((newLineLength) < lineLength){
 								newWord += ' ';
 								for(int k = wordStart; k <= wordEnd; k++){
 									newWord += currentLine.charAt(k);
@@ -46,7 +46,7 @@ public class Formatter
 								formLine += newWord;
 							}
 							else{
-								if((newLineLength) > 80){
+								if((newLineLength) > lineLength){
 									formList.add(formLine);
 									formLine = "";
 									for(int k = wordStart; k <= wordEnd; k++){
@@ -55,7 +55,7 @@ public class Formatter
 									formLine += newWord;
 									
 								}
-								if(newLineLength == 80){
+								if(newLineLength == lineLength){
 									newWord += ' ';
 									for(int k = wordStart; k <= wordEnd; k++){
 										newWord += currentLine.charAt(k);
@@ -110,7 +110,7 @@ public class Formatter
 								
 							}
 							else{
-								if((newLineLength) < 80){
+								if((newLineLength) < lineLength){
 									newWord += ' ';
 									for(int k = wordStart; k <= wordEnd; k++){
 										newWord += currentLine.charAt(k);
@@ -118,7 +118,7 @@ public class Formatter
 									formLine += newWord;
 								}
 								else{
-									if((newLineLength) > 80){
+									if((newLineLength) > lineLength){
 										formList.add(formLine);
 										formLine = "";
 										for(int k = wordStart; k <= wordEnd; k++){
@@ -127,7 +127,7 @@ public class Formatter
 										formLine += newWord;
 										
 									}
-									if(newLineLength == 80){
+									if(newLineLength == lineLength){
 										newWord += ' ';
 										for(int k = wordStart; k <= wordEnd; k++){
 											newWord += currentLine.charAt(k);
@@ -172,7 +172,7 @@ public class Formatter
 								tempLine += newWord;
 							}
 							else{
-								if((newLineLength) < 80){
+								if((newLineLength) < lineLength){
 									newWord += ' ';
 									for(int k = wordStart; k <= wordEnd; k++){
 										newWord += currentLine.charAt(k);
@@ -180,8 +180,8 @@ public class Formatter
 									tempLine += newWord;
 								}
 								else{
-									if((newLineLength) > 80){
-										int spaces = 80 - tempLine.length();
+									if((newLineLength) > lineLength){
+										int spaces = lineLength - tempLine.length();
 										for(int z = 0; z < spaces; z++){
 											formLine += " ";
 										}
@@ -195,7 +195,7 @@ public class Formatter
 										tempLine += newWord;
 										
 									}
-									if(newLineLength == 80){
+									if(newLineLength == lineLength){
 										newWord += ' ';
 										for(int k = wordStart; k <= wordEnd; k++){
 											newWord += currentLine.charAt(k);
@@ -252,7 +252,7 @@ public class Formatter
 									tempLine += newWord;
 								}
 								else{
-									if((newLineLength) < 80){
+									if((newLineLength) < lineLength){
 										newWord += ' ';
 										for(int k = wordStart; k <= wordEnd; k++){
 											newWord += currentLine.charAt(k);
@@ -260,8 +260,8 @@ public class Formatter
 										tempLine += newWord;
 									}
 									else{
-										if((newLineLength) > 80){
-											int spaces = 80 - tempLine.length();
+										if((newLineLength) > lineLength){
+											int spaces = lineLength - tempLine.length();
 											for(int z = 0; z < spaces; z++){
 												formLine += " ";
 											}
@@ -275,7 +275,7 @@ public class Formatter
 											tempLine += newWord;
 											
 										}
-										if(newLineLength == 80){
+										if(newLineLength == lineLength){
 											newWord += ' ';
 											for(int k = wordStart; k <= wordEnd; k++){
 												newWord += currentLine.charAt(k);
@@ -298,7 +298,7 @@ public class Formatter
 						
 					}
 					if(tempLine != ""){
-						int spaces = 80 - tempLine.length();
+						int spaces = lineLength - tempLine.length();
 						for(int z = 0; z < spaces; z++){
 							formLine += " ";
 						}
@@ -307,12 +307,26 @@ public class Formatter
 					}
 					
 				}
-				
-				String[] formText = new String[formList.size()];
-				for(int n = 0; n < formList.size(); n++){
-					formText[n] = formList.get(n);
+				if(spacing == 0){
+					String[] formText = new String[formList.size()];
+					for(int n = 0; n < formList.size(); n++){
+						formText[n] = formList.get(n);
+					}
+					return formText;
 				}
-				return formText;
+				else{
+					String[] formText = new String[2*formList.size()-1];
+					int tracker = 0;
+					for(int n = 0; n < formList.size(); n++){
+						formText[tracker] = formList.get(n);
+						if(n != formList.size()-1){
+							tracker++;
+							formText[tracker] = "";
+						}
+						tracker++;
+					}
+					return formText;
+				}
 		}
 	
 }
