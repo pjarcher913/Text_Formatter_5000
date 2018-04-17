@@ -121,6 +121,9 @@ public class Analyzer
             // Now must move on to next string and do the same thing.  Note that wordCount does not get reset.
 
         }
+		
+		//Word count is acting a little buggy.  Trying this out to see if it gives more accurate results.
+		wordCount = WordSegmenter.segmentWords(outputLines).length;
 
         //*************************************************
         /*  Deal with lineCount */

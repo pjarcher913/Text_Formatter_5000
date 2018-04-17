@@ -60,12 +60,16 @@ public class GUI
 	private JPanel analysisPanel;
 	
 	private static int justificationFlag;
+	private static int spacingFlag;
+	private static int lineLength;
 	private static boolean fileLoaded;
 	private static boolean fileFormatted;
 	
 	public GUI()
 	{
 		justificationFlag = 0;
+		spacingFlag = 0;
+		lineLength = 80;
 		fileLoaded = false;
 		fileFormatted = false;
 	}
@@ -113,6 +117,7 @@ public class GUI
 		{
 			JSlider slider = (JSlider) e.getSource();
 			int v = slider.getValue();
+			lineLength = v;
 			sliderLabel.setText("Characters per line: " + Integer.toString(v));
 		}
 	}
@@ -126,8 +131,20 @@ public class GUI
 				justificationFlag = 0;
 			else if(button.getText().equals("Right Justify"))
 				justificationFlag = 1;
-			//else
-			//	justificationFlag = 2;
+			else
+				justificationFlag = 2;
+		}
+	}
+	
+	private static class SpacingAction implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			JRadioButton button = (JRadioButton) e.getSource();
+			if(button.getText().equals("Single spaced"))
+				spacingFlag = 0;
+			else
+				spacingFlag = 1;
 		}
 	}
 	
@@ -187,14 +204,25 @@ public class GUI
 
 			//NEED OTHER FILES DONE
 			
-			Formatter form = new Formatter();
-			//outputArray = form.format(inputArray, justificationFlag);
+			if(justificationFlag == 2)
+			{
+				FullyJustifiedFormatter form = new FullyJustifiedFormatter();
+				outputArray = form.format(inputArray, spacingFlag, lineLength);
+				spacesAddedLabel.setText("Spaces added: " + Integer.toString(form.getSpacesAdded()));
+			}
+			else
+			{
+				Formatter form = new Formatter();
+				outputArray = form.format(inputArray, justificationFlag, spacingFlag, lineLength);
+				spacesAddedLabel.setText("Spaces added: 0");
+			}
+			
 			Analyzer ana = new Analyzer();
 			ana.performAnalysis(inputArray, outputArray);
 			
 			wordCountLabel.setText("Word count: " + Integer.toString(ana.getWordCount()));
 			lineCountLabel.setText("Lines: " + Integer.toString(ana.getLineCount()));
-			blankLinesLabel.setText("Blank lines removed: " + Integer.toString(ana.getBlankLinesRemoved()));
+			blankLinesLabel.setText("Blank lines removed: " + Integer.toString(ana.getBlankLinesRemoved()) + "    ");
 			avgWordsLabel.setText("Average words per line: " + Double.toString(ana.getAvgWordsPerLine()));
 			avgLineLabel.setText("Average line length: " + Double.toString(ana.getAvgLineLength()));
 			
@@ -321,6 +349,11 @@ public class GUI
 		singleSpaceButton = new JRadioButton("Single spaced");
 		doubleSpaceButton = new JRadioButton("Double spaced");
 		
+		SpacingAction spacingListener = new SpacingAction();
+		
+		singleSpaceButton.addActionListener(spacingListener);
+		doubleSpaceButton.addActionListener(spacingListener);
+		
 		spacingGroup = new ButtonGroup();
 		spacingGroup.add(singleSpaceButton);
 		spacingGroup.add(doubleSpaceButton);
@@ -377,7 +410,7 @@ public class GUI
 		saveButton.addActionListener(new SaveAction());
 		wordCountLabel = new JLabel("Word count: 0");
 		lineCountLabel = new JLabel("Lines: 0");
-		blankLinesLabel = new JLabel("Blank lines removed: 0");
+		blankLinesLabel = new JLabel("Blank lines removed: 0    ");
 		avgWordsLabel = new JLabel("Average words per line: 0");
 		avgLineLabel = new JLabel("Average line length: 0");
 		spacesAddedLabel = new JLabel("Spaces added: 0");
