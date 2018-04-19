@@ -17,9 +17,6 @@ public class FullyJustifiedFormatter
 		wordsInLine.clear();
 		
 		String[] words = WordSegmenter.segmentWords(input);
-		System.out.println(words.length);
-		for(int i = 0; i < words.length; i++)
-			System.out.print(words[i] + " ");
 		
 		//Handle case where words is empty here
 		if(words.length == 0)
