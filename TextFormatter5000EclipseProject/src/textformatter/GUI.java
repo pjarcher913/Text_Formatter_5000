@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -208,23 +209,37 @@ public class GUI
 			{
 				FullyJustifiedFormatter form = new FullyJustifiedFormatter();
 				outputArray = form.format(inputArray, spacingFlag, lineLength);
-				spacesAddedLabel.setText("Spaces added: " + Integer.toString(form.getSpacesAdded()));
+				//spacesAddedLabel.setText("Spaces added: " + Integer.toString(form.getSpacesAdded()));
 			}
 			else
 			{
 				Formatter form = new Formatter();
 				outputArray = form.format(inputArray, justificationFlag, spacingFlag, lineLength);
-				spacesAddedLabel.setText("Spaces added: 0");
+				//spacesAddedLabel.setText("Spaces added: 0");
 			}
 			
 			Analyzer ana = new Analyzer();
 			ana.performAnalysis(inputArray, outputArray);
 			
+			//Count spaces
+			int spaceCount = 0;
+			for(int i = 0; i < outputArray.length; i++)
+			{
+				for(int j = 0; j < outputArray[i].length(); j++)
+				{
+					if(outputArray[i].charAt(j) == ' ')
+						spaceCount++;
+				}
+			}
+			
+			DecimalFormat df = new DecimalFormat("#.##");
+			
 			wordCountLabel.setText("Word count: " + Integer.toString(ana.getWordCount()));
 			lineCountLabel.setText("Lines: " + Integer.toString(ana.getLineCount()));
 			blankLinesLabel.setText("Blank lines removed: " + Integer.toString(ana.getBlankLinesRemoved()) + "    ");
-			avgWordsLabel.setText("Average words per line: " + Double.toString(ana.getAvgWordsPerLine()));
-			avgLineLabel.setText("Average line length: " + Double.toString(ana.getAvgLineLength()));
+			avgWordsLabel.setText("Average words per line: " + df.format(ana.getAvgWordsPerLine()));
+			avgLineLabel.setText("Average line length: " + df.format(ana.getAvgLineLength()));
+			spacesAddedLabel.setText("Spaces added: " + Integer.toString(spaceCount));
 			
 			//Build output text string
 			text = "";
